@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.1.3/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 1500px;
+        width: 100%;
+      }
+	  body {background-color: #93d2b8;
+	  }
+	  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #fe5f55;
+}
+.active {
+    background-color: #4CAF50;
+}
+
+    </style>
+    <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.1.3/build/ol.js"></script>
+    <title>DAL Map</title>
+  </head>
+  <body>
+    <h2>Dal MAP</h2>
+	<ul>
+  <li><a  id="myLink" href="#" onclick="updateMainPage('Map');" class="current" >الرئيسية</a></li>
+  <li><a id="myLink" href="#" onclick="updateMap('Hospital');">إسعاف</a></li>
+  <li><a id="myLink" href="#" onclick="updateMap('Food');">طعام</a></li>
+</ul>
+
+		<!--<input type="button" name="sel" value="الرئيسية" onclick="updateMap('Home')"> -->
+	<!--<input type="button" name="sel" value="طعام" onclick="updateMap('Food')">
+		<input type="button" name="sel" value="إسعاف" onclick="updateMap('Hospital')">
+		<input type="button" name="sel" value="الخريطة" onclick="updateMainPage('Map')">
+		-->
+
+	<div id="Wait" style="display: none;">	<img src="Hajj.jpg" alt="Smiley face"  > </div>
+
+    <div id="map" class="map"></div>
+    <script type="text/javascript">
+
+      var map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM(
+			/*{url : 'http://mt{0-3}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'}*/)
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([ 39.8957164, 21.4139277 ]),
+	        	   zoom : 17,
+	        	   minZoom : 1       })
+      });
+	  
+      // markers
+var sourceFeatures = new ol.source.Vector(),
+    layerFeatures = new ol.layer.Vector({source: sourceFeatures});
+	 map.addLayer(layerFeatures );
+var style1 = [
+    new ol.style.Style({
+        image: new ol.style.Icon(({
+            scale: 0.7,
+            rotateWithView: false,
+            anchor: [0.5, 1],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
+            opacity: 1,
+            src: 'hospital.png'
+        })),
+        zIndex: 5
+    }),
+    new ol.style.Style({
+        image: new ol.style.Circle({
+            radius: 5,
+            fill: new ol.style.Fill({
+                color: 'rgba(255,255,255,1)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'rgba(0,0,0,1)'
+            })
+        })
+    })
+];
+var style2 = [
+    new ol.style.Style({
+        image: new ol.style.Icon(({
+            scale: 0.7,
+            rotateWithView: false,
+            anchor: [0.5, 1],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
+            opacity: 1,
+			width:50,
+			hight:50,
+            src: 'food.png'
+        })),
+        zIndex: 5
+    }),
+    new ol.style.Style({
+        image: new ol.style.Circle({
+            radius: 5,
+            fill: new ol.style.Fill({
+                color: 'rgba(255,255,255,1)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'rgba(0,0,0,1)'
+            })
+        })
+    })
+];
+var feature = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([ 39.895179, 21.413789  ]))
+	//([ ol.proj.fromLonLat([ 39.8957164, 21.4139277 ])])
+});
+feature.setStyle(    new ol.style.Style({
+        image: new ol.style.Circle({
+            radius: 15,
+            fill: new ol.style.Fill({
+                color: 'red'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'rgba(0,0,0,1)'
+            })
+        }),      text: new ol.style.Text({
+        font: '12px Calibri,sans-serif',
+        fill: new ol.style.Fill({ color: '#000' }),
+        stroke: new ol.style.Stroke({
+          color: '#fff', width: 2
+        }),
+        // get the text from the feature - `this` is ol.Feature
+        // and show only under certain resolution
+        text: 'GPS location'
+      })
+    },
+	
+	
+	));
+sourceFeatures.addFeature(feature);
+
+			
+//Hospital			
+var feature2 = new ol.Feature({
+	name:"Hospital",
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([ 39.8947164, 21.414053 ]))
+	//([ ol.proj.fromLonLat([ 39.8957164, 21.4139277 ])])
+});
+feature2.setStyle( style1);
+sourceFeatures.addFeature(feature2);
+var hospital2 = new ol.Feature({
+	name:"Hospital2",
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([  39.894122, 21.413492 ]))
+	//([ ol.proj.fromLonLat([ 39.8957164, 21.4139277 ])])
+});
+hospital2.setStyle( style1);
+sourceFeatures.addFeature(hospital2);
+
+var feature3 = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([ 39.8947164, 21.413350 ]))
+	//([ ol.proj.fromLonLat([ 39.8957164, 21.4139277 ])])
+});
+feature3.setStyle( style2);
+sourceFeatures.addFeature(feature3);
+
+var food2 = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([ 39.895028, 21.413562]))
+	//([ ol.proj.fromLonLat([ 39.8957164, 21.4139277 ])])
+});
+food2.setStyle( style2);
+sourceFeatures.addFeature(food2);
+
+var food3 = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([ 39.894321, 21.413874]))
+	//([ ol.proj.fromLonLat([ 39.8957164, 21.4139277 ])])
+});
+food3.setStyle( style2);
+sourceFeatures.addFeature(food3)
+
+// focus on the feature
+var ext = feature.getGeometry().getExtent();
+
+//map.getView().fitExtent(vectorSources.getExtent(), map.getSize());
+map.getView().fit(sourceFeatures.getExtent(), map.getSize());
+map.getView().setZoom(20);
+
+///////////////////////////////////
+
+var points = [[ 39.8947164, 21.414053 ],[ 39.895179, 21.413789  ]];
+
+for (var i = 0; i < points.length; i++) {
+    points[i] = ol.proj.transform(points[i], 'EPSG:4326', 'EPSG:3857');
+}
+
+var featureLine = new ol.Feature({
+    geometry: new ol.geom.LineString(points)
+});
+
+featureLine.setStyle(new ol.style.Style({}));
+
+sourceFeatures.addFeature(featureLine);
+
+//
+var foodpoints = [[39.895028, 21.413562],[ 39.895179, 21.413789  ]];
+for (var i = 0; i < foodpoints.length; i++) {
+    foodpoints[i] = ol.proj.transform(foodpoints[i], 'EPSG:4326', 'EPSG:3857');
+}
+var foodLine = new ol.Feature({
+    geometry: new ol.geom.LineString(foodpoints)
+});
+
+foodLine.setStyle(new ol.style.Style({}) );
+
+sourceFeatures.addFeature(foodLine);
+//
+
+
+///////////////////////////////
+// set mode to current mode of double clicked feature                       
+map.on('click', function(evt) {
+  var feature = map.forEachFeatureAtPixel(evt.pixel,
+    function(feature, layer) {	
+	if(feature.get('name') == 'Hospital'){
+document.getElementById("map").style.display = 'none'; 
+document.getElementById("Wait").style.display = 'block'; 
+}
+
+    });
+
+}); 
+
+
+function updateMap(value){
+if (value == 'Food'){
+feature3.setStyle(new ol.style.Style({}));
+food2.setStyle( style2);
+food3.setStyle(new ol.style.Style({}));
+
+
+feature2.setStyle(new ol.style.Style({}));
+hospital2.setStyle(new ol.style.Style({}));
+
+featureLine.setStyle(new ol.style.Style({}));
+foodLine.setStyle(new ol.style.Style({
+        fill: new ol.style.Fill({ color: '#00FF00', weight: 6 }),
+        stroke: new ol.style.Stroke({ color: '#00FF00', width: 5 })
+    }));
+
+}
+else if (value == 'Hospital'){
+hospital2.setStyle(new ol.style.Style({}));
+feature3.setStyle(new ol.style.Style({}));
+feature2.setStyle(style1);
+food2.setStyle(new ol.style.Style({}));
+
+food3.setStyle(new ol.style.Style({}));
+
+featureLine.setStyle(new ol.style.Style({
+        fill: new ol.style.Fill({ color: '#00FF00', weight: 6 }),
+        stroke: new ol.style.Stroke({ color: '#00FF00', width: 5 })
+    }));
+foodLine.setStyle(new ol.style.Style({}));
+
+
+}
+if (value == 'Home'){
+feature2.setStyle(style1);
+hospital2.setStyle(style1);
+
+feature3.setStyle( style2);
+food2.setStyle(style2);
+food3.setStyle(style2);
+
+featureLine.setStyle(new ol.style.Style({}));
+foodLine.setStyle(new ol.style.Style({}));
+
+}
+}
+function updateMainPage(value){
+if (value == 'Map'){
+document.getElementById("map").style.display = 'block'; 
+document.getElementById("Wait").style.display = 'none'; 
+
+feature3.setStyle( style2);
+food2.setStyle(style2);
+food3.setStyle(style2);
+foodLine.setStyle(new ol.style.Style({}));
+
+feature2.setStyle(style1);
+hospital2.setStyle(style1);
+featureLine.setStyle(new ol.style.Style({}));
+
+
+}
+
+}
+    </script>
+  </body>
+</html>
