@@ -9,14 +9,14 @@
         height: 1500px;
         width: 100%;
       }
-	  body {background-color: #93d2b8;
+	  body {background-color: #b8d8d8;
 	  }
 	  ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: #4f6367;
 }
 
 li {
@@ -33,10 +33,10 @@ li a {
 
 /* Change the link color to #111 (black) on hover */
 li a:hover {
-    background-color: #fe5f55;
+    background-color: #7a9e9f;
 }
 .active {
-    background-color: #4CAF50;
+    background-color: #7a9e9f;
 }
 
     </style>
@@ -47,8 +47,12 @@ li a:hover {
     <h2>Dal MAP</h2>
 	<ul>
   <li><a  id="myLink" href="#" onclick="updateMainPage('Map');" class="current" >الرئيسية</a></li>
-  <li><a id="myLink" href="#" onclick="updateMap('Hospital');">إسعاف</a></li>
-  <li><a id="myLink" href="#" onclick="updateMap('Food');">طعام</a></li>
+  <li s><a id="myLink" href="#" onclick="updateMap('Hospital');" ><img src='hospital.png' height="42" width="42"/></a></li>
+  <li><a id="myLink" href="#" onclick="updateMap('Food');"><img src='food.png' height="42" width="42"/></a></li>
+  <li><a id="myLink" href="#"><img src='ambulance.png' height="42" width="42"/></a></li>
+    <li><a id="myLink" href="#"><img src='question.png' height="42" width="42"/></a></li>
+
+
 </ul>
 
 		<!--<input type="button" name="sel" value="الرئيسية" onclick="updateMap('Home')"> -->
@@ -83,7 +87,7 @@ var sourceFeatures = new ol.source.Vector(),
 var style1 = [
     new ol.style.Style({
         image: new ol.style.Icon(({
-            scale: 0.7,
+                        scale: 0.2,
             rotateWithView: false,
             anchor: [0.5, 1],
             anchorXUnits: 'fraction',
@@ -108,14 +112,13 @@ var style1 = [
 var style2 = [
     new ol.style.Style({
         image: new ol.style.Icon(({
-            scale: 0.7,
             rotateWithView: false,
-            anchor: [0.5, 1],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'fraction',
+    anchor: [0.5, 46],
+    anchorXUnits: 'fraction',
+    anchorYUnits: 'pixels',
             opacity: 1,
-			width:50,
-			hight:50,
+                        scale: 0.2,
+
             src: 'food.png'
         })),
         zIndex: 5
@@ -264,8 +267,8 @@ hospital2.setStyle(new ol.style.Style({}));
 
 featureLine.setStyle(new ol.style.Style({}));
 foodLine.setStyle(new ol.style.Style({
-        fill: new ol.style.Fill({ color: '#00FF00', weight: 6 }),
-        stroke: new ol.style.Stroke({ color: '#00FF00', width: 5 })
+        fill: new ol.style.Fill({ color: '#fe5f55', weight: 6 }),
+        stroke: new ol.style.Stroke({ color: '#fe5f55', width: 5 })
     }));
 
 }
@@ -278,8 +281,8 @@ food2.setStyle(new ol.style.Style({}));
 food3.setStyle(new ol.style.Style({}));
 
 featureLine.setStyle(new ol.style.Style({
-        fill: new ol.style.Fill({ color: '#00FF00', weight: 6 }),
-        stroke: new ol.style.Stroke({ color: '#00FF00', width: 5 })
+        fill: new ol.style.Fill({ color: '#fe5f55', weight: 6 }),
+        stroke: new ol.style.Stroke({ color: '#fe5f55', width: 5 })
     }));
 foodLine.setStyle(new ol.style.Style({}));
 
