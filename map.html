@@ -145,7 +145,7 @@ var stylequestion = [
             opacity: 1,
                         scale: 0.2,
 
-            src: 'ambulance.png'
+            src: 'food.png'
         })),
         zIndex: 5
     }),
@@ -232,6 +232,7 @@ hospital2.setStyle( style1);
 sourceFeatures.addFeature(hospital2);
 
 var feature3 = new ol.Feature({
+	name:"ambulance",
     geometry: new ol.geom.Point(ol.proj.fromLonLat([ 39.894713, 21.413653 ]))
 	//([ ol.proj.fromLonLat([ 39.8957164, 21.4139277 ])])
 });
@@ -295,7 +296,7 @@ sourceFeatures.addFeature(foodLine);
 map.on('click', function(evt) {
   var feature = map.forEachFeatureAtPixel(evt.pixel,
     function(feature, layer) {	
-	if(feature.get('name') == 'Hospital'){
+	if(feature.get('name') == 'ambulance2'){
 document.getElementById("map").style.display = 'none'; 
 document.getElementById("Wait").style.display = 'block'; 
 }
